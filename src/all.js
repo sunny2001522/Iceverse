@@ -10,40 +10,27 @@ window.addEventListener("scroll", function () {
 // 首頁
 // api相關
 
-const apiUrl = "http://localhost:3005/api/v1/home";
+const apiUrl = "http://localhost:3005/api/v1/";
 // 最新消息
-fetch("http://localhost:3005/api/v1/home/news", { method: "GET" })
+fetch("http://localhost:3005/api/v1/home/news/", { method: "GET" })
   .then((response) => response.json())
-  .then((res) => {
-    if (res.status === "true") {
-      const newsList = document.querySelector(".news-list");
-
-      // 把每一則新聞組成 HTML 字串
-      const html = res.result
-        .map(
-          (item) => `
-          <li class="mb-4">
-            <img src="${item.img}" alt="" />
+  .then((response) => {
+    console.log(response.result);
+    const newsList = document.querySelector(".news-list");
+    const data = response.result;
+    // 把每一則新聞組成 HTML 字串
+    data.forEach((item) => {
+      newsList.innerHTML += `
+          <li class="mb-4" id="${item._id}">
+            <img src="${item.image}" alt="" />
             <div class="bg-white p-2">
               <h3 class="text-primary text-xl pb-4">${item.title}</h3>
-              <ul>
-                <li>預約「冰穹劇院求婚」加贈星塵煙火秀</li>
-                <li>限定星霧雙人套餐，含兩杯極光調飲</li>
-                <li>免費刻字星光玻璃片（情人牆展示）</li>
-              </ul>
+              <p class="text-sm text-gray-500">${item.description}</p>  
             </div>
-        </li>
-        <div class="news-item p-4 border-b border-gray-200">
-          <h3 class="text-lg font-bold"></h3>
-          <p class="text-sm text-gray-500">${item.date}</p>
-        </div>
-      `
-        )
-        .join("");
-
-      // 丟進去 innerHTML
-      newsList.innerHTML = html;
-    }
+            
+          </li>
+        `;
+    });
   })
   .catch((err) => console.error("Fetch news failed", err));
 
