@@ -12,6 +12,10 @@ module.exports = {
         tertiary: "#FACAA8",
       },
     },
+    fontFamily: {
+      write: ["Playwrite AU SA"],
+      body: ['"Open Sans"'],
+    },
   },
   plugins: [],
 };
